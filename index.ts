@@ -13,26 +13,36 @@ function env(name: string): string {
   return process.env[name]
 }
 
-async function api(method: string, params: object) {
+function logError(error: unknown): void {
+  if (error instanceof Error) {
+    console.log(error.message)
+  } else {
+    console.error(error)
+  }
+}
+
+async function api(method: string, params: object, url?: string) {
+  url = url || env('API_URL')
   const config: AxiosRequestConfig = { headers: { 'X-API-KEY': env('API_KEY') } }
   return axios.post(
-    env('API_URL'),
+    url,
     { id: '1', jsonrpc: '2.0', method, params },
     config,
   )
 }
 
-async function runGetMethod(method: string, address: string, stack: any) {
+async function runGetMethod(method: string, address: string, stack: any, url?: string) {
   const result = await api(
     'runGetMethodFift',
     { address, method, params: stack },
+    url,
   )
   return result.data.result
 }
 
 async function debot(method: string, params: Array<any>): Promise<Array<any>> {
   const address = `${ env('APP_WORKCHAIN') }:${ env('APP_DEBOT_ADDRESS') }`
-  const result = await runGetMethod(method, address, params)
+  const result = await runGetMethod(method, address, params, env('API_URL_DEBOT'))
   return JSON.parse(result.result)
 }
 
@@ -46,11 +56,7 @@ async function send(boc: string): Promise<any | null> {
     const result = await api('sendAndWaitTransaction', { boc })
     return result.data.result
   } catch (e) {
-    if (e instanceof Error) {
-      console.log(e.message)
-    } else {
-      console.error(e)
-    }
+    logError(e)
     return null
   }
 }
@@ -61,7 +67,7 @@ async function getSeqno(address: string, checkBalance: boolean): Promise<number>
     out = (await fetchState(address))
   } catch (_) {}
   if (checkBalance && (!out || out && out.balance == '0')) {
-    throw new Error(`Account is empty for topup use: npx everdev ct -n devnet -a ${address} -v 1T`)
+    throw new Error(`Account is empty for topup use: npx everdev ct -n devnet -a ${ address } -v 1T`)
   }
   if (!out || !out['data']) return 0
   return parseInt((await debot(
@@ -143,26 +149,22 @@ async function pack(
 
 async function main() {
   const keyPair = nacl.sign.keyPair.fromSeed(Buffer.from(env('APP_SEED'), 'hex'))
-  const dest = env('APP_DEBOT_ADDRESS') // some destination
+  const dest = env('APP_RECEIVER') // some destination
   const wallet = await getAddress(keyPair)
-  console.log(`wallet=${wallet}`)
+  console.log(`wallet=${ wallet }`)
   const seqno = await getSeqno(wallet, true)
-  console.log(`seqno=${seqno}`)
-  let msg = await makeMessage(keyPair, seqno, dest, '1')
+  console.log(`seqno=${ seqno }`)
+  let msg = await makeMessage(keyPair, seqno, dest, '0')
   let trx = await send(msg)
-  console.log(`transfer trx=${trx ? trx.transaction.id: 'error'}`)
+  console.log(`transfer trx=${ trx ? trx.transaction.id: 'error' }`)
   msg = await makeTerminator(keyPair, seqno + 1, dest)
   trx = await send(msg)
-  console.log(`termination trx=${trx ? trx.transaction.id: 'error'}`)
+  console.log(`termination trx=${ trx ? trx.transaction.id: 'error' }`)
 }
 
 if (require.main === module) {
   main().catch((e) => {
-    if (e instanceof Error) {
-      console.log(e.message)
-    } else {
-      console.error(e)
-    }
+    logError(e)
     process.exit(1)
   })
 }

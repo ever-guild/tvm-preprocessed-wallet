@@ -2,6 +2,8 @@
 
 - https://github.com/pyAndr3w/ton-preprocessed-wallet-v2
 
+We use a DeBot (a special smart contract that is stored on the blockchain and executed locally) for generating messages for the wallet contract.
+
 ## Setup faucet
 
 use https://t.me/everdev_giver_bot or https://t.me/testgiver_ton_bot
@@ -28,4 +30,8 @@ termination trx=732f9a5adafb65617927312550e2273de7d6e63985031d55c643881e94a043f2
 Done in 19.60s.
 ```
 
-See in blockchain https://testnet.everscan.io/accounts/0:2024bd0b269c9d7f390815b45e37c79d127483b3f5f95a83ef8c58869f7afdf5
+See in blockchains:
+
+- https://tonscan.org/address/EQAgJL0LJpydfzkIFbReN8edEnSDs_X5WoPvjFiGn3r99b7G#source
+- https://everscan.io/accounts/0:2024bd0b269c9d7f390815b45e37c79d127483b3f5f95a83ef8c58869f7afdf5
+- https://testnet.everscan.io/accounts/0:2024bd0b269c9d7f390815b45e37c79d127483b3f5f95a83ef8c58869f7afdf5
