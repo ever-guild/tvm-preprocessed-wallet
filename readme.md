@@ -23,15 +23,14 @@ yarn start
 $ yarn start
 yarn run v1.22.5
 $ ts-node index.ts
-wallet=0:2024bd0b269c9d7f390815b45e37c79d127483b3f5f95a83ef8c58869f7afdf5
+wallet=0:b8b85827ef206fa2c3a0f1f7e8988109ac3dec0c85136529badbd3f46d7d5247
 seqno=0
-transfer trx=4792460fddf19c325e8f9b6dae7e38febdb3cc7dbdc713acfbc85f8946946e1c
-termination trx=732f9a5adafb65617927312550e2273de7d6e63985031d55c643881e94a043f2
-Done in 19.60s.
+transfer trx=cfe19aaaa778f9377b9e72637b095d9acc8b71e9f7bcc19c84f5c37ca2fc5b65
+termination trx=31b3d1e65fe6920b56a8e0eddb8ca187d9f74d3eadde60b276b1299a4fb31350
 ```
 
 See in blockchains:
 
-- https://tonscan.org/address/EQAgJL0LJpydfzkIFbReN8edEnSDs_X5WoPvjFiGn3r99b7G#source
-- https://everscan.io/accounts/0:2024bd0b269c9d7f390815b45e37c79d127483b3f5f95a83ef8c58869f7afdf5
-- https://testnet.everscan.io/accounts/0:2024bd0b269c9d7f390815b45e37c79d127483b3f5f95a83ef8c58869f7afdf5
+- https://tonscan.org/address/EQC4uFgn7yBvosOg8ffomIEJrD3sDIUTZSm629P0bX1SRytu#source
+- https://everscan.io/accounts/0:b8b85827ef206fa2c3a0f1f7e8988109ac3dec0c85136529badbd3f46d7d5247
+- https://testnet.everscan.io/accounts/0:b8b85827ef206fa2c3a0f1f7e8988109ac3dec0c85136529badbd3f46d7d5247
