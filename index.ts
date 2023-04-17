@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { Buffer } from 'buffer'
 import * as dotenv from 'dotenv'
 import * as nacl from 'tweetnacl'
@@ -14,7 +14,9 @@ function env(name: string): string {
 }
 
 function logError(error: unknown): void {
-  if (error instanceof Error) {
+  if (error instanceof AxiosError) {
+    console.log(error.response ? error.response.data.error : error.message)
+  } else if (error instanceof Error) {
     console.log(error.message)
   } else {
     console.error(error)
